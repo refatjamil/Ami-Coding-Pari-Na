@@ -19,7 +19,7 @@
     {% else %}
 
     <p id="result"><b>Result:</b>{{khoj_result}}</p>
-     <a href="/">Refrash</a>
+     <a href="{% url 'khoj' %}">Refrash</a>
     {% endif %}
 
     {% if messages %}
