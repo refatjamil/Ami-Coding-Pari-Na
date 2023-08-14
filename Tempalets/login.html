@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form action="" method="POST">  {% csrf_token %}
+    <form action="" method="POST" novalidate>  {% csrf_token %}
         {% for lf in login_form %}
         {{lf.label_tag}} {{lf}} <small class="text-warning-emphasis" >{{lf.errors|striptags}}</small>  <br><br>
         {% endfor %}
@@ -18,10 +18,14 @@
 
 
     {% if messages %}
-    {% for mg in messages %}
-    {{mg}}
-    {% endfor %}
-    {% endif %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+
     
     
 </body>

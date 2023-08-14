@@ -7,6 +7,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Khoj
 from django.contrib import messages
+from .serializers import KhojSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 def welcome(request):
     """ Welcome to user """
@@ -32,19 +38,22 @@ def user_login(request):
 
     if not request.user.is_authenticated:
         if request.method == 'POST':
-            login_form = LoginForm(request=request, data=request.POST)
-            if login_form.is_valid():
-                uname = login_form.cleaned_data['username']
-                upass = login_form.cleaned_data['password']
-                user = authenticate(username= uname, password=upass)
-                if user is not None:
-                    login(request, user)
-                    messages.success(request, 'Logged in Successfully !')
-                    return redirect('khoj')
-        else:            
+            uname = request.POST.get('username')
+            upass = request.POST.get('password')
+            
+            user = authenticate(username=uname, password=upass)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Logged in Successfully !')
+                return redirect('khoj')
+            else:
+                messages.info(request, 'Invalid username or password. Please try again.') # Fix the typo here
+                return redirect('login')
+        else:
             login_form = LoginForm()
 
-        context = {'login_form':login_form}
+        context = {'login_form': login_form}
+        
         return render(request, 'login.html', context)
     
     else:
@@ -55,8 +64,6 @@ def user_logout(request):
 
     logout(request)
     return redirect('/')  
-
-
 
 
 class KhojView(LoginRequiredMixin, View):
@@ -104,3 +111,36 @@ class KhojView(LoginRequiredMixin, View):
 
         context = {'khoj_result': khoj_result}    
         return render(request, 'khoj.html', context)
+    
+
+    """ API """
+
+class KhojViewAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        start_datetime_str = request.query_params.get('start_datetime', None)
+        end_datetime_str = request.query_params.get('end_datetime', None)
+
+        if not (start_datetime_str and end_datetime_str):
+            return Response({"error": "Missing or invalid parameters"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            obj = Khoj.objects.filter(
+                timestamp__range=[start_datetime_str, end_datetime_str],
+                user_id=request.user.id
+            )
+        except ValueError:
+            return Response({"error": "Invalid datetime format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = KhojSerializer(obj, many=True)
+
+        response_data = {
+            "status": "success",
+            "user_id": request.user.id,
+            "payload": serializer.data
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
+# http://127.0.0.1:8000/api/?start_datetime=2023-08-14T13:00:00Z&end_datetime=2023-08-14T15:00:00Z
