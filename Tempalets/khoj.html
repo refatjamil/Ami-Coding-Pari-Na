@@ -1,38 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khoj</title>
-</head>
-<body>
 
-    <h1>Khoj</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-    {% if khoj_form %}
-    <form action="" method="POST">  {% csrf_token %}
-        {% for kf in khoj_form %}
-        {{kf.label_tag}} {{kf}} <small class="text-warning-emphasis" >{{kf.errors|striptags}}</small>  <br><br>
-        {% endfor %}
-        <input type="submit" value="Khoj">
-    </form>
+{% block content %}
 
-    <br><a href = "{% url 'logout' %}">Logout</a> <br>
+<div class="col-12  my-5">
+  <h1 class="text-dark Roboto my-5">
+    Khoj Page
+  </h1>
+  {% if messages %}
+  {% for message in messages %}
+  <p {% if message.tags %} class="Roboto alert alert-warning mb-5 {% endif %} ">{{message}} </p>
+  {% endfor %}
+{% endif %}
 
-    {% else %}
+  <div class="container">
+    <div class="row mt-5">
+      <div class="shadow col-lg-6 m-auto p-5 text-dark-emphasis bg-secondary-subtle border border-secondary rounded-4">
+        <p class="h3 py-3 Roboto" >Khoj the Search</p>
+        {% if khoj_form %}
 
-    <p id="result"><b>Result:</b>{{khoj_result}}</p>
-     <a href="{% url 'khoj' %}">Refrash</a>
-    {% endif %}
+        <form action="" method="POST" novalidate> {% csrf_token %}
+          {% for fm in khoj_form %}
+          <div class="form-group">
+            {{fm.label_tag}} {{fm}} <small class="text-warning-subtle" >{{fm.errors|striptags}}</small>  <br><br>
+          </div>
+          {% endfor %}
+          <input type="submit" value="Khoj" class="btn btn-secondary rounded-5 w-100">
 
+          {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="alert alert-danger my-3" >{{error}}</p>
+            {% endfor %}
+          {% endif %}  
 
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-    </ul>
+        </form><br>
+
+      </div>
+      <div class="col-sm-9  my-3">
+    
+        <a href="{% url 'logout' %}" class="Roboto btn btn-outline-danger btn-lg" role="button" aria-pressed="true">Logout</a>
+    
+    </div>
+
+    </div>
+
+  </div>
+
+  {% else %}
+  <p class="Roboto" id="result"><b>Result:</b></p>
+  <p {% if khoj_result %} class=" h4 Roboto alert alert-success mb-5"{% else %} class=" h4 Roboto alert alert-danger mb-5" {% endif %}>{{khoj_result}} </p>
+
+  <a href="{% url  'khoj'  %}" class="Roboto btn btn-info btn-lg" role="button" aria-pressed="true">Refrash</a>
+
   {% endif %}
 
-</body>
-</html>
+{% endblock content %}

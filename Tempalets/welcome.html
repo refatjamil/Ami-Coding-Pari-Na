@@ -1,25 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome to Ami Coding Pari Na Application</h1>
 
 
-    {% if user.is_authenticated %}
+{% extends 'base.html' %}
+{% load static %}
 
-    <a href = "{% url 'khoj' %}">Khoj</a>
-    <a href = "{% url 'logout' %}">Logout</a>
 
-    {% else %}
-    <a href = "{% url 'registration' %}">Create New Account</a>
+{% block content %}
 
-    <a href = "{% url 'login' %}">Login</a>
+<div class="col-sm-9  mt-5 mb-5">
+    <h1 class="text-dark Roboto mt-5">
+        Welcome to Ami Coding Pari Na.
+    </h1>
 
-    {% endif %}
+</div>
+{% if request.user.is_authenticated %}
+<div class="col-sm-9  my-3">
+    
+    <a href="{% url 'khoj' %}" class="mx-3 Roboto btn btn-outline-dark btn-lg" role="button" aria-pressed="true">Khoj Page</a>
+    <a href="{% url 'logout' %}" class="Roboto btn btn-outline-danger btn-lg" role="button" aria-pressed="true">Logout</a>
+</div>
 
-</body>
-</html>
+{% else %}
+<div class="col-sm-9  my-3">
+    <a href="{% url 'registration' %}" class="mx-3 Roboto btn btn-outline-dark btn-lg" role="button" aria-pressed="true">Create Account</a>
+    <a href="{% url 'login' %}" class="Roboto btn btn-outline-dark btn-lg" role="button" aria-pressed="true">Login</a>
+</div>
+{% endif %}
+
+{% endblock content %}

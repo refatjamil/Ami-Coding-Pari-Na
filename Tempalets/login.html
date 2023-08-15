@@ -1,32 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form action="" method="POST" novalidate>  {% csrf_token %}
-        {% for lf in login_form %}
-        {{lf.label_tag}} {{lf}} <small class="text-warning-emphasis" >{{lf.errors|striptags}}</small>  <br><br>
-        {% endfor %}
-        <input type="submit" value="Login">
-    </form>
-<br>
-    <a href = "{% url 'registration' %}">Create New Account</a> <br>
 
+{% extends 'base.html' %}
+{% load static %}
 
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-  
+{% block content %}
 
-    
-    
-</body>
-</html>
+<div class="col-12  my-5">
+  <h1 class="text-dark Roboto my-5">
+    Login
+  </h1>
+  {% if messages %}
+  {% for message in messages %}
+  <p {% if message.tags %} class="Roboto alert alert-{{message.tags}} mb-5 {% endif %} ">{{message}} </p>
+  {% endfor %}
+{% endif %}
+
+  <div class="container">
+    <div class="row mt-5">
+      <div class="shadow col-lg-6 m-auto p-5 text-dark-emphasis bg-dark-subtle  rounded-4">
+        <p class="h4 py-3 Roboto" >Login to Your Account.</p>
+
+        <form action="" method="POST" novalidate> {% csrf_token %}
+          {% for fm in login_form %}
+          <div class="form-group">
+            {{fm.label_tag}} {{fm}} <small class="text-warning-subtle" >{{fm.errors|striptags}}</small>  <br><br>
+          </div>
+          {% endfor %}
+          <input type="submit" value="LOG IN" class="btn btn-dark rounded-5 w-100">
+
+          {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="alert alert-danger my-3 Roboto" >{{error}}</p>
+            {% endfor %}
+          {% endif %}  
+
+        </form><br>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
