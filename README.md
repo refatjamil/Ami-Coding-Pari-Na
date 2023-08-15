@@ -56,7 +56,7 @@ python manage.py runserver
 6. Access the project in your web browser: http://127.0.0.1:8000/
 
 ## API Endpoint
-
+7. To allow authenticated users to view their details via api
 ### Get All Input Values
 
 Endpoint: `/api/`
