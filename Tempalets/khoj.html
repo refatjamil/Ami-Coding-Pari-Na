@@ -16,7 +16,7 @@
 
   <div class="container">
     <div class="row mt-5">
-      <div class="shadow col-lg-6 m-auto p-5 text-dark-emphasis bg-secondary-subtle border border-secondary rounded-4">
+      <div class="shadow col-lg-6 m-auto p-5 text-dark  border border-dark rounded-4">
         <p class="h3 py-3 Roboto" >Khoj the Search</p>
         {% if khoj_form %}
 
@@ -26,7 +26,7 @@
             {{fm.label_tag}} {{fm}} <small class="text-warning-subtle" >{{fm.errors|striptags}}</small>  <br><br>
           </div>
           {% endfor %}
-          <input type="submit" value="Khoj" class="btn btn-secondary rounded-5 w-100">
+          <input type="submit" value="Khoj" class="btn btn-dark rounded-5 w-100">
 
           {% if form.non_field_errors %}
             {% for error in form.non_field_errors %}

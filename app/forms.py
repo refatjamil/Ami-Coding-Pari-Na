@@ -6,13 +6,13 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 
 class KhojForm(forms.ModelForm):
-    search_value = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'autofocus':True, 'class':'form-control Roboto'}))  # Adding the extra field
+    search_value = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'autofocus':True, 'class':'form-control Roboto border border-dark'}))  # Adding the extra field
 
     class Meta:
         model = Khoj
         fields = ['input_values']
         widgets = {
-            'input_values': forms.TextInput(attrs={'class':'form-control Roboto'}),
+            'input_values': forms.TextInput(attrs={'class':'form-control Roboto border border-dark'}),
              }
    
 
