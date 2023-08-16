@@ -56,15 +56,36 @@ python manage.py runserver
 6. Access the project in your web browser: http://127.0.0.1:8000/
 
 ## API Endpoint
-7. To allow authenticated users to view their details via api
+7. To allow token-based authenticated users to view their details via an API request.
 ### Get All Input Values
+This API documentation provides details about the "Get All Input Values" endpoint. To retrieve all input values entered by a user within a specified time range.
 
-Endpoint: `/api/`
+Then Generate the Token
+
+Make a GET request to the API endpoint and include the token in the Authorization header.
+Endpoint: `/api/get-all-input-values/`
 
 Parameters:
 - `start_datetime` (inclusive) - Start of the time range in YYYY-MM-DD HH:MM:SS format.
 - `end_datetime` (inclusive) - End of the time range in YYYY-MM-DD HH:MM:SS format.
 
-Example:
+Example Request:
 
-`http://127.0.0.1:8000/api/?start_datetime=2023-08-14T13:00:00Z&end_datetime=2023-08-14T15:00:00Z`
+`curl -H "Authorization: Token YOUR_TOKEN_HERE" "http://127.0.0.1:8000/api/?start_datetime=2023-08-14T13:00:00Z&end_datetime=2023-08-15T20:20:00Z"`
+
+Example Response:
+`{
+    "status": "success",
+    "user_id": 1,
+    "payload": [
+        {
+            "input_values":"7, 7, 6, 4, 3, 1",
+            "timestamp":"2023-08-14 13:56"
+        },
+        {
+            "input_values":"9, 9, 5, 4, 4, 1",
+            "timestamp":"2023-08-14 13:56"
+        }
+    ]
+}
+`
