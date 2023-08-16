@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import KhojForm
-from .forms import RegistrationForm, LoginForm
+from .forms import KhojForm, GetToken, RegistrationForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,8 +10,12 @@ from .serializers import KhojSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.decorators import login_required
+from rest_framework.authtoken.models import Token
+
+
 
 def welcome(request):
     """ Welcome to user """
@@ -116,6 +119,7 @@ class KhojView(LoginRequiredMixin, View):
     """ API """
 
 class KhojViewAPI(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -144,3 +148,31 @@ class KhojViewAPI(APIView):
         return Response(response_data, status=status.HTTP_200_OK)
 
 # http://127.0.0.1:8000/api/?start_datetime=2023-08-14T13:00:00Z&end_datetime=2023-08-14T15:00:00Z
+
+
+
+@login_required(login_url='/')
+def get_token(request):
+    if request.method == 'POST':
+        gt = GetToken(request.POST)
+
+        if gt.is_valid():
+            username = gt.cleaned_data['username']
+            password = gt.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+
+        if (user and request.user == user):
+            token , created = Token.objects.get_or_create(user=user)
+            context = {'token': token.key}
+        else:
+            messages.warning(request, 'Invalid Username and Password')
+            return redirect('gettoken')
+
+    else:
+        gt = GetToken()
+        context = {'gt':gt}
+    
+    return render(request, 'token_request.html', context)
+
+def api_docs(request):
+    return render(request, 'api_docs.html')

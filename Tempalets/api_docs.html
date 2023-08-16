@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="col-12  my-5">
+
+<div class="container">
+    <div class="row mt-5">
+
+    <h2>API Documentation: Get All Input Values</h2>
+    <p>This API documentation provides details about the "Get All Input Values" endpoint.To retrieve all input values entered by a user within a specified time range.</p>
+    <p>Then <a href="{% url 'gettoken' %}">Ganerate the Token</a></p>
+    <p>Make a <code>GET</code> request to the API endpoint and include the token in the <code>Authorization</code> header.</p>
+
+
+    
+    <table>
+        <tr>
+            <th>HTTP Method</th>
+            <th>URL</th>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td><code>/api/get-all-input-values/</code></td>
+        </tr>
+    </table>
+    <h4 class="mt-3">Parameters</h4>
+    <ul>
+        <li><code>start_datetime</code> (string, required): The start date and time in ISO 8601 format (inclusive).</li>
+        <li><code>end_datetime</code> (string, required): The end date and time in ISO 8601 format (inclusive).</li>
+    </ul>
+
+
+    <h4>Example Request</h4>
+    <pre>
+        <code>curl -H "Authorization: Token YOUR_TOKEN_HERE" "http://127.0.0.1:8000/api/?start_datetime=2023-08-14T13:00:00Z&end_datetime=2023-08-15T20:20:00Z"</code>
+    </pre>
+
+    <h4>Example Response</h4>
+    <pre>
+        <code>
+{
+    "status": "success",
+    "user_id": 1,
+    "payload": [
+        {
+            "input_values":"7, 7, 6, 4, 3, 1",
+            "timestamp":"2023-08-14 13:56"
+        },
+        {
+            "input_values":"9, 9, 5, 4, 4, 1",
+            "timestamp":"2023-08-14 13:56"
+        }
+    ]
+}
+        </code>
+    </pre>
+
+ 
+
+</div>
+</div>
+
+</div>
+
+{% endblock content %}
