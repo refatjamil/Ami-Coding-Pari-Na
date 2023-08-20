@@ -89,3 +89,12 @@ Example Response:
     ]
 }
 `
+## Demo
+
+#### Khoj the Page
+[![K_S](https://raw.githubusercontent.com/rifatjamil54/Ami-Coding-Pari-Na/main/demo/k_s.gif)]
+
+#### Generat Token
+[![genetar_token](https://raw.githubusercontent.com/rifatjamil54/Ami-Coding-Pari-Na/main/demo/g_token.gif)]
+
+
