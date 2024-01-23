@@ -1,6 +1,6 @@
 # Ami Coding Pari Na Django Project
 
-Welcome to the "Ami Coding Pari Na" Django project. A company gave me this Project for an interview.
+Welcome to the "Ami Coding Pari Na" Django project. A company gave me this project for an `Interview`.
 
 ## Project Overview
 
