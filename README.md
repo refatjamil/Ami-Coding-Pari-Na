@@ -1,6 +1,6 @@
 # Ami Coding Pari Na Django Project
 
-Welcome to the "Ami Coding Pari Na" Django project. 
+Welcome to the "Ami Coding Pari Na" Django project. A company gave me this Project for an interview.
 
 ## Project Overview
 
@@ -10,11 +10,11 @@ The project includes user authentication features that allow users to register a
 
 ### Khoj - The Search
 
-The core of the project is the "Khoj - The Search" feature. This feature allows users to:
+The project's core is the "Khoj - The Search" feature. This feature allows users to:
 
 1. Take input comma-separated integers.
 2. Search for a specific integer.
-3. Check if the search value is present in the input values return True else False.
+3. Check if the search value is present in the input values return True or False.
 4. Store the input values in a sorted descending order in the database.
 
 
